@@ -14,14 +14,17 @@ import com.lange.entity.vo.TeacherVo;
 public interface LgTeacherMapper {
 
 	// 根据id 查询老师详细信息
-	@Select({ "select * from lg_teacher where id = #{id}" })
+	@Select({ "select t.id,t.`name`,CASE WHEN t.sex = 0 then '女' when t.sex = 1 then '男' END  sex,",
+			"t.teach_time ,l.`language`,t.`explain`,",
+			" DATE_FORMAT(t.regist_time,'%Y-%m-%d') registTime, DATE_FORMAT( t.create_time,'%Y-%m-%d')  createTime, DATE_FORMAT( t.update_time,'%Y-%m-%d')  updateTime",
+			" from lg_teacher t LEFT JOIN lg_language l  on t.language_id = l.id where t.id = #{id}" })
 	LgTeacher getTeacherById(@Param("id") String id);
 
 	// 查询所有老师
 	@Select({ "<script> select t.id id,t.`name` name,t.sex sex,l.`language` `language`,t.`explain` `explain`, ",
-			" IFNULL((select b.type  from lg_course_book b where b.teacher_id = t.id and b.user_wx = #{wxOpenid}),-1) bookStatus ",
-			" from lg_teacher t LEFT JOIN lg_language l on t.language_id = l.id </script>" })
-	List<TeacherVo> getTeacherlist(@Param("wxOpenid") String wx_openid);
+			" IFNULL((select b.type  from lg_course_order b where b.teacher_id = t.id and b.user_id = #{userId}),-1) bookStatus ",
+			" from lg_teacher t LEFT JOIN lg_language l on t.language_id = l.id group by t.id </script>" })
+	List<TeacherVo> getTeacherlist(@Param("userId") String userId);
 
 	/**
 	 * 根据老师id 查询课程信息

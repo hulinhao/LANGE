@@ -19,15 +19,15 @@ public class LgTeacherServiceImpl implements LgTeacherService {
 	private LgTeacherMapper lgTeacherMapper;
 
 	@Override
-	public Pager<TeacherVo> getTeacherList(String wx_openid, int[] pagePram) {
+	public Pager<TeacherVo> getTeacherList(String userId, int[] pagePram) {
 		Pager<TeacherVo> pager = new Pager<TeacherVo>();
 		// 1.查询老师基本信息
 		// 2.查询是否已经预订过该老师的课程
-		if (CommUtils.isNull(wx_openid)) {
-			wx_openid = "m";
+		if (CommUtils.isNull(userId)) {
+			userId = "-1";
 		}
 		Page<TeacherVo> page = PageHelper.startPage(pagePram[0], pagePram[1], true);
-		lgTeacherMapper.getTeacherlist(wx_openid);
+		lgTeacherMapper.getTeacherlist(userId);
 
 		return pager.initPage(page);
 

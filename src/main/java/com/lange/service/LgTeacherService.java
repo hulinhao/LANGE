@@ -13,7 +13,7 @@ public interface LgTeacherService {
 	 * @param wx_openid 当前用户微信
 	 * @return
 	 */
-	Pager<TeacherVo> getTeacherList(String wx_openid, int[] page);
+	Pager<TeacherVo> getTeacherList(String userId, int[] page);
 
 	/**
 	 * 根据id 查询老师详情

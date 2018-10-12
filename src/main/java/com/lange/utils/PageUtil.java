@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class PageUtil {
 
-	public static int PAGE_SIZE = 30;
+	public static int PAGE_SIZE = 7;
 
 	public static int[] init(HttpServletRequest request) {
 		String pageNoStr = request.getParameter("pageNo");

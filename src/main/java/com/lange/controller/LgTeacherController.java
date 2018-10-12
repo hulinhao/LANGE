@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lange.entity.vo.TeacherVo;
@@ -51,9 +52,10 @@ public class LgTeacherController {
 	 * @return
 	 */
 	@RequestMapping("getTeacherInfo")
-	public AppResponseResult getTeacherInfo(HttpServletRequest request) {
+	@ResponseBody
+	public AppResponseResult getTeacherInfo(HttpServletRequest request, String id) {
 		try {
-			String id = request.getParameter("id");
+			// String id = request.getParameter("id");
 			if (CommUtils.isNull(id)) {
 				log.info("【查询老师详细信息】老师id为空!");
 				return AppResponseResult.error(ResponseEnum.PARAM_ERROR);
