@@ -2,13 +2,6 @@ package com.lange.utils;
 
 import com.lange.enums.ResponseEnum;
 
-/**
- * 服务器响应app结果对象
- * 
- * @author lujilong
- *
- * @param <T>
- */
 public class AppResponseResult {
 
 	/**
@@ -22,7 +15,7 @@ public class AppResponseResult {
 	/**
 	 * 服务器响应结果对象
 	 */
-	private Object result;
+	private Object data;
 
 	public static AppResponseResult error() {
 		AppResponseResult r = new AppResponseResult();
@@ -56,7 +49,7 @@ public class AppResponseResult {
 			r.msg = ResponseEnum.DATA_EMPTY.getMsg();
 			return r;
 		}
-		r.result = data;
+		r.data = data;
 		r.code = ResponseEnum.SUCCESS.getCode().toString();
 		r.msg = ResponseEnum.SUCCESS.getMsg();
 		return r;
@@ -78,12 +71,12 @@ public class AppResponseResult {
 		this.msg = msg;
 	}
 
-	public Object getResult() {
-		return result;
+	public Object getData() {
+		return data;
 	}
 
-	public void setResult(Object result) {
-		this.result = result;
+	public void setData(Object data) {
+		this.data = data;
 	}
 
 }

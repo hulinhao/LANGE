@@ -2,6 +2,7 @@ package com.lange.enums;
 
 import lombok.Getter;
 
+
 @Getter
 public enum ResponseEnum {
 
@@ -10,6 +11,12 @@ public enum ResponseEnum {
 	private Integer code;
 	private String msg;
 
+	public Integer getCode(){
+		return this.code;
+	}
+	public String getMsg(){
+		return this.msg;
+	}
 	ResponseEnum(Integer code, String msg) {
 		this.code = code;
 		this.msg = msg;

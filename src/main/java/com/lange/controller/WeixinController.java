@@ -14,12 +14,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.lange.utils.AesCbcUtil;
 import com.lange.utils.HttpRequest;
 
+/**
+ *
+ * @Author linhao Hu
+ * @Date
+ *
+ */
 @Controller
 @RequestMapping("winxin/")
 public class WeixinController {
 	/**
 	 * @Title: decodeUserInfo       @author：lizheng     
-	 * @date：2018年3月25日      @Description: 解密用户敏感数据
+	 * @Description: 解密用户敏感数据
 	 * @param encryptedData 明文,加密数据
 	 * 
 	 * @param iv 加密算法的初始向量
