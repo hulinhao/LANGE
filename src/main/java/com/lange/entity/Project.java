@@ -22,6 +22,7 @@ public class Project {
     private Long id;
     private String name;
     private int type; //'1：台球   2：篮球'
-    private String img;
+    private String img;  //图片
+    private String remark; //备注
     private Date createTimel;
 }

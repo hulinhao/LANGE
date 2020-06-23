@@ -7,23 +7,25 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Date;
+
 /**
+ * TODO
  *
- * @Author linhao Hu
- * @Date
- *
+ * @author linhao Hu
+ * @date 2020/6/23 12:41
  */
-@Data
 @Entity
-public class Game {
+@Data
+public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String playerOne;
-    private String playerTwo;
-    private Long projectId;
-    private int type;       //0：赛前 1：赛中 2：赛后'
+    private Long plateId;
+    private Long userId;
+    private Double amount;//下注金额
+    private int type;//0:未结算  1：已结算
+    private Double settlementAmount;//结算金额
     private Date createTime;
-    private Date endTime;
+    private Date updateTime;
 }
