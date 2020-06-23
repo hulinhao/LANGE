@@ -2,12 +2,12 @@
 spring:
    datasource:
       #name test
-     url: jdbc:mysql://127.0.0.1:3306/psd?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT
+     url: jdbc:mysql://106.14.244.139:13306/psd?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT
      username: root
-     password: root
-#     url: jdbc:mysql://106.14.238.126:3306/psd?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT
+     password: 123456
+#     url: jdbc:mysql://127.0.0.1:3306/psd?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT
 #     username: root
-#     password: beadwallet.mysql@2016
+#     password: root
      # 使用druid数据源
      type: com.alibaba.druid.pool.DruidDataSource
      driver-class-name: com.mysql.cj.jdbc.Driver
