@@ -36,7 +36,7 @@ public class PlateController {
             return AppResponseResult.error();
         }
         map.put("game",gameMapper.selectById(Long.parseLong(gameId.toString())));
-        map.put("plate",platMapper.selectOne(new LambdaQueryWrapper<Plate>().eq(Plate::getGameId,Long.parseLong(gameId.toString())).eq(Plate::getType,0)));
+        map.put("plate",platMapper.selectList(new LambdaQueryWrapper<Plate>().eq(Plate::getGameId,Long.parseLong(gameId.toString())).eq(Plate::getType,0)));
         return AppResponseResult.success(map);
     }
 }

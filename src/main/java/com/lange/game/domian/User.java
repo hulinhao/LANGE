@@ -4,18 +4,21 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
-@TableName("project")
+@TableName("user")
 public class User {
     @TableId
     private Long id;
-    private String wxAppid;
+    private String wxOpenid;
     private String wxName;
     private String name;
-    private Double glod;//现有金币
-    private Double payGlod;//累计充值金币
-    private Double withdrawGlod;//累计提现金币
+    private BigDecimal gold;//现有金币
+    private BigDecimal payGold;//累计充值金币
+    private BigDecimal withdrawGold;//累计提现金币
     private Date createTime;
+    private Date updateTime;
+
 }
