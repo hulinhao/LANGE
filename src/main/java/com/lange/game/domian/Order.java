@@ -1,25 +1,19 @@
-package com.lange.entity;
+package com.lange.game.domian;
 
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.util.Date;
 
 /**
- * TODO
- *
- * @author linhao Hu
- * @date 2020/6/23 12:41
+ * @author yanankk
  */
-@Entity
 @Data
+@TableName("order")
 public class Order {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @TableId
     private Long id;
     private Long plateId;
     private Long userId;

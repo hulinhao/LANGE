@@ -1,14 +1,13 @@
-package com.lange.controller;
+package com.lange.game.controller;
 
-import com.lange.entity.Plate;
-import com.lange.mapper.GameMapper;
-import com.lange.mapper.PlatMapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.lange.game.domian.Plate;
+import com.lange.game.mapper.GameMapper;
+import com.lange.game.mapper.PlateMapper;
 import com.lange.utils.AppResponseResult;
 import com.lange.utils.CommUtils;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -25,22 +24,19 @@ import java.util.Map;
 @RequestMapping("plate/")
 public class PlateController {
     @Resource
-    private PlatMapper platMapper;
+    private PlateMapper platMapper;
     @Resource
     private GameMapper gameMapper;
 
     @RequestMapping("getPlat")
     public AppResponseResult getPlat(@RequestBody Map param){
-        Map<String,Object> map = new HashMap<String,Object>();
+        Map<String,Object> map = new HashMap<>(8);
         Object gameId = param.get("gameId");
         if(CommUtils.isNull(gameId)){
             return AppResponseResult.error();
         }
-        Plate p = new Plate();
-        p.setGameId(Long.parseLong(gameId.toString()));
-        p.setType(0);
-        map.put("game",gameMapper.selectByPrimaryKey(Long.parseLong(gameId.toString())));
-        map.put("plate",platMapper.select(p));
+        map.put("game",gameMapper.selectById(Long.parseLong(gameId.toString())));
+        map.put("plate",platMapper.selectOne(new LambdaQueryWrapper<Plate>().eq(Plate::getGameId,Long.parseLong(gameId.toString())).eq(Plate::getType,0)));
         return AppResponseResult.success(map);
     }
 }

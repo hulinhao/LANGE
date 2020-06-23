@@ -1,7 +1,6 @@
-package com.lange.controller;
+package com.lange.game.controller;
 
-import com.lange.entity.Game;
-import com.lange.mapper.GameMapper;
+import com.lange.game.mapper.GameMapper;
 import com.lange.utils.AppResponseResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,8 +9,8 @@ import javax.annotation.Resource;
 
 /**
  *
- * @Author linhao Hu
- * @Date
+ * @author linhao Hu
+ * @date 2020-06-23
  *
  */
 @RestController
@@ -23,6 +22,6 @@ public class GameController {
 
     @RequestMapping("getGameList")
     public AppResponseResult getGameList(){
-        return AppResponseResult.success(gameMapper.selectAll());
+        return AppResponseResult.success(gameMapper.selectList(null));
     }
 }

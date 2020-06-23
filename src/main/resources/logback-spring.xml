@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!--日志路径-->
+    <property name="log.path" value="logs"/>
+    <!--日志保存天数-->
+    <property name="expir.days" value="30"/>
+    <!--压缩日志 保存天数-->
+    <property name="backup.days" value="100"/>
+    <!--格式化输出：%d:表示日期 %thread:表示线程名 %-5level:级别从左显示5个字符宽度 %msg:日志消息 %n:是换行符-->
+    <!-- magenta:洋红 -->
+    <!-- boldMagenta:粗红-->
+    <!-- cyan:青色 -->
+    <!-- white:白色 -->
+    <!-- magenta:洋红 -->
+    <!--需要注意的是\\(%file:%line\\)里面有\\对小括号转义，否则无效-->
+    <property name="log.pattern"
+              value="%magenta(%d{yyyy-MM-dd HH:mm:ss.SSS}) | %highlight(%-5level) | %yellow(%thread) | %cyan(%c{1}.%M：%line) | %msg%n"/>
+
+    <!-- 控制台输出 -->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${log.pattern}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- 用户访问日志输出  -->
+    <appender name="log-file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 正在记录的日志文件的路径及文件名 -->
+        <file>${log.path}/logs/log.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 按天回滚 daily -->
+            <fileNamePattern>${log.path}/log/log-info.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- 日志最大的历史 60天 -->
+            <maxHistory>${expir.days}</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${log.pattern}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!--压缩日志-->
+    <appender name="gz-file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>
+                ${log.path}/backup/log-info-%d{yyyy-MM-dd}.log.gz
+            </fileNamePattern>
+            <maxHistory>${backup.days}</maxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${log.pattern}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- 显示形成的sql、使用的参数、结果集 -->
+    <!--    <logger name="java.sql" level="debug" />-->
+    <!--    <logger name="org.springframework.jdbc" level="debug" />-->
+
+    <root level="info">
+        <appender-ref ref="console"/>
+        <!--<appender-ref ref="log-file"/>-->
+        <!--<appender-ref ref="gz-file"/>-->
+    </root>
+
+</configuration>

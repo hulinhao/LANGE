@@ -1,24 +1,16 @@
-package com.lange.entity;
+package com.lange.game.domian;
 
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.util.Date;
 
-/**
- * TODO
- *
- * @author linhao Hu
- * @date 2020/6/23 11:59
- */
-@Entity
 @Data
+@TableName("plate")
 public class Plate {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @TableId
     private Long id;
     private Long gameId;//比赛id
     private String content;//盘口内容

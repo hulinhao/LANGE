@@ -1,24 +1,19 @@
-package com.lange.entity;
+package com.lange.game.domian;
 
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.util.Date;
+
 /**
- *
- * @Author linhao Hu
- * @Date
- *
+ * @author yanankk
  */
 @Data
-@Entity
+@TableName("game")
 public class Game {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @TableId
     private Long id;
     private String playerOne;
     private String playerTwo;
