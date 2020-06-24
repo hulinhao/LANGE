@@ -10,7 +10,7 @@
 <body>
 
 <h2>项目列表：</h2>
-<table  class="table table-bordered">
+<table  class="table table-bordered" style="width: 80%;margin: 0 auto">
     <tr>
         <th>编号</th>
         <th>比赛项目</th>
@@ -29,8 +29,8 @@
         <td th:text="${p.remark}"></td>
         <td th:text="${#dates.format(p.createTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
         <td>
-            <button type="button" class="btn btn-sm btn-primary create-logo">新增</button>
-            <button type="button" class="btn btn-sm btn-danger del-logo" th:value="${p.id}">删除</button>
+            <button type="button" class="btn btn-sm btn-primary create-logo" disabled>新增</button>
+            <button type="button" class="btn btn-sm btn-danger del-logo" th:value="${p.id}" disabled>删除</button>
         </td>
     </tr>
 </table>
