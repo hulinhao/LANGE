@@ -1,18 +1,15 @@
-package com.lange.game.domian;
+package com.lange.game.domian.vo;
 
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.lange.game.domian.Plate;
 import lombok.Data;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
-@TableName("plate")
-public class Plate {
+public class BackstagePlateVo {
 
-    @TableId
-    private Long id;
+    private Long plateId;
     private Long gameId;//比赛id
     private Long projectId;//项目id
     private String content;//盘口内容
@@ -22,4 +19,13 @@ public class Plate {
     private Date createTime;//
     private Date endTime;//
     private Date paidTime;//赔付时间
+
+    //project
+    private String projectRemark;
+
+    //game
+    private String playerOne;
+    private String playerTwo;
+
+
 }

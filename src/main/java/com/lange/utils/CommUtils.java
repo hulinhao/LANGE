@@ -295,17 +295,17 @@ public class CommUtils {
 		}
 	}
 
-	public static void main(String[] args) {
-		// System.out.println(CommUtils.getMD5("123456".getBytes()));
-		// String uuid = CommUtils.getUUID();
-		/*
-		 * System.out.println(uuid + ".length = " + uuid.length()); String signature = SecurityUtils.sign(
-		 * "15623060179|0002900F0041080|11032302065863805555|http://www.baidu.com" ); System.out.println(signature);
-		 * System.out.println(CommUtils.getRandomNumber(6));
-		 */
-		System.out.println(getUUID().length());
-		String phone = "420921199410293011";
-
-		System.out.println(phone.substring(phone.length() - 4));
-	}
+//	public static void main(String[] args) {
+//		// System.out.println(CommUtils.getMD5("123456".getBytes()));
+//		// String uuid = CommUtils.getUUID();
+//		/*
+//		 * System.out.println(uuid + ".length = " + uuid.length()); String signature = SecurityUtils.sign(
+//		 * "15623060179|0002900F0041080|11032302065863805555|http://www.baidu.com" ); System.out.println(signature);
+//		 * System.out.println(CommUtils.getRandomNumber(6));
+//		 */
+//		System.out.println(getUUID().length());
+//		String phone = "420921199410293011";
+//
+//		System.out.println(phone.substring(phone.length() - 4));
+//	}
 }

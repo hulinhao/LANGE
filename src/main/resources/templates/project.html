@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" type="text/css"/>
+
+</head>
+<body>
+
+<h2>项目列表：</h2>
+<table  class="table table-bordered" style="width: 80%;margin: 0 auto">
+    <tr>
+        <th>编号</th>
+        <th>比赛项目</th>
+        <th>类型</th>
+        <th>logo</th>
+        <th>比赛名称</th>
+        <th>开赛时间</td>
+        <th>操作</td>
+    </tr>
+    <tr th:each="p : ${projects}">
+        <td th:text="${p.id}"></td>
+        <td th:text="${p.name}"></td>
+        <td th:if="${p.type ==1}">台球</td>
+        <td th:if="${p.type ==2}">篮球</td>
+        <td ><img th:src="${p.img}"></td>
+        <td th:text="${p.remark}"></td>
+        <td th:text="${#dates.format(p.createTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+        <td>
+            <button type="button" class="btn btn-sm btn-primary create-logo" disabled>新增</button>
+            <button type="button" class="btn btn-sm btn-danger del-logo" th:value="${p.id}" disabled>删除</button>
+        </td>
+    </tr>
+</table>
+
+
+<hr>
+<h2>新增项目：</h2>
+<form class="form-horizontal">
+    <div class="form-group">
+        <label for="ProjectName" class="col-sm-2 control-label">比赛项目</label>
+        <div class="col-sm-5">
+            <input type="text" class="form-control" id="ProjectName" name="name" placeholder="比赛项目">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="ProjectType" class="col-sm-2 control-label">项目类型</label>
+        <div class="col-sm-5">
+            <select class="form-control" id="ProjectType" placeholder="项目类型" name="type">
+                <option value="1">台球</option>
+                <option value="2">篮球</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="ProjectImg" class="col-sm-2 control-label">项目banner</label>
+        <div class="col-sm-5">
+            <input type="file" class="form-control" id="ProjectImg" name="img" >
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="ProjectRemark" class="col-sm-2 control-label">活动名称</label>
+        <div class="col-sm-5">
+            <input type="text" class="form-control" id="ProjectRemark" name="remark" placeholder="活动名称">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-success" onclick="addProject()">添加项目</button>
+        </div>
+    </div>
+</form>
+
+</body>
+<script type="text/javascript" th:src="@{/js/jquery-3.5.1.min.js}" src="../static/js/jquery-3.5.1.min.js"></script>
+<script>
+
+
+    function addProject() {
+        let param = {
+            name: $("#ProjectName").val(),
+            type: $("#ProjectType").val(),
+            img: $("#ProjectImg").val(),
+            remark: $("#ProjectRemark").val()
+        };
+        $.post("/backstage/project/add", param, function (data) {
+            alert(data.msg);
+        }, "json")
+
+
+    }
+
+
+</script>
+</html>

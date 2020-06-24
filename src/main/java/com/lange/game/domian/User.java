@@ -15,6 +15,7 @@ public class User {
     private String wxOpenid;
     private String wxName;
     private String name;
+    private int type;// 0:客户 1:管理赛程  2:管理赔率，金币
     private BigDecimal gold;//现有金币
     private BigDecimal payGold;//累计充值金币
     private BigDecimal withdrawGold;//累计提现金币

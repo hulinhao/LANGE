@@ -22,6 +22,10 @@ logging:
 
 # Spring配置
 spring:
+  # 模板引擎
+  #thymeleaf:
+    # 禁用缓存
+    #cache: false
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss

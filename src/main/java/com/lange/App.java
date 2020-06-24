@@ -10,10 +10,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *
  * @author lange
  */
-@SpringBootApplication(exclude = { DruidDataSourceAutoConfigure.class })
+@SpringBootApplication(exclude = {DruidDataSourceAutoConfigure.class})
 @MapperScan("com.lange.game.mapper")
 public class App {
-	public static void main(String[] args) {
-		SpringApplication.run(App.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(App.class, args);
+    }
+
 }
