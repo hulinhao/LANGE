@@ -3,18 +3,6 @@
 server:
   # 服务端口
   port: 80
-  servlet:
-    # 项目contextPath
-    context-path: /
-  tomcat:
-    # tomcat的URI编码
-    uri-encoding: UTF-8
-    threads:
-      # Tomcat启动初始化的线程数，默认值25
-      min-spare: 30
-      # tomcat最大线程数，默认为200
-      max: 800
-
 # 日志配置
 logging:
   level:
@@ -22,6 +10,10 @@ logging:
 
 # Spring配置
 spring:
+  # 模板引擎
+  #thymeleaf:
+    # 禁用缓存
+    #cache: false
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
@@ -78,6 +70,6 @@ mybatis-plus:
     #log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   global-config:
     db-config:
-      db-type: mysql
       #主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
       id-type: AUTO
+

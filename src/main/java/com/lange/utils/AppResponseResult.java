@@ -24,6 +24,13 @@ public class AppResponseResult {
 		return r;
 	}
 
+	public static AppResponseResult errorMsg(String msg) {
+		AppResponseResult r = new AppResponseResult();
+		r.code = ResponseEnum.ERROR.getCode().toString();
+		r.msg = msg;
+		return r;
+	}
+
 	public static AppResponseResult error(ResponseEnum e) {
 		AppResponseResult r = new AppResponseResult();
 		r.code = e.getCode().toString();
@@ -32,7 +39,7 @@ public class AppResponseResult {
 	}
 
 	public static AppResponseResult success() {
-		return success(null);
+		return success(ResponseEnum.SUCCESS);
 	}
 
 	public static AppResponseResult success(ResponseEnum e) {
