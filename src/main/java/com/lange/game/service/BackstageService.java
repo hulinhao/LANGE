@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.lange.game.domian.Game;
 import com.lange.game.domian.Plate;
 import com.lange.game.domian.Project;
+import com.lange.game.domian.vo.BackstageGameVo;
 import com.lange.game.domian.vo.BackstagePlateVo;
 import com.lange.game.mapper.GameMapper;
 import com.lange.game.mapper.PlateMapper;
@@ -48,6 +49,22 @@ public class BackstageService {
                 vo.setPlayerOne(game.getPlayerOne());
                 vo.setPlayerTwo(game.getPlayerTwo());
             }
+            list.add(vo);
+        }
+        return list;
+    }
+
+    /**
+     * 封装赛程
+     */
+    public List<BackstageGameVo> getBackstageGame(Long paramProject) {
+        List<BackstageGameVo> list = new ArrayList<>();
+        List<Game> games = gameMapper.selectList(new LambdaQueryWrapper<Game>().eq(paramProject != null, Game::getProjectId, paramProject));
+
+        for (Game game : games) {
+            BackstageGameVo vo = new BackstageGameVo();
+            BeanUtils.copyProperties(game, vo);
+            vo.setProjectRemark(projectMapper.selectById(game.getProjectId()).getRemark());
             list.add(vo);
         }
         return list;

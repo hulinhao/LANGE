@@ -33,26 +33,20 @@
 </form>
 <br>
 
-<div id="table_refresh" th:fragment="table_refresh">
-    <table class="table table-bordered">
+<div id="table_refresh" th:fragment="table_refresh" >
+    <table class="table table-bordered" style="width: 80%;margin: 0 auto">
         <tr>
             <th>盘口编号</th>
             <th>比赛项目</th>
             <th>选手1</th>
             <th>选手2</th>
             <th>盘口内容</th>
-            <th>赔率
-            </td>
-            <th>状态
-            </td>
-            <th>创建时间
-            </td>
-            <th>结束时间
-            </td>
-            <th>赔付时间
-            </td>
-            <th>操作
-            </td>
+            <th>赔率</th>
+            <th>状态</th>
+            <th>创建时间</th>
+            <th>结束时间</th>
+            <th>赔付时间</th>
+            <th>操作</th>
         </tr>
         <tr th:each="p : ${plateList}">
             <td th:text="${p.plateId}"></td>
@@ -70,7 +64,7 @@
             <td th:text="${#dates.format(p.endTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
             <td th:text="${#dates.format(p.paidTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
             <td>
-                <button type="button" class="btn btn-sm btn-primary create-logo">修改</button>
+                <button type="button" class="btn btn-sm btn-primary create-logo" disabled>修改</button>
             </td>
         </tr>
     </table>

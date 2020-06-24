@@ -15,6 +15,7 @@ import com.lange.game.service.BackstageService;
 import com.lange.utils.AppResponseResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindException;
 import org.springframework.validation.annotation.Validated;
@@ -74,6 +75,7 @@ public class BackstageController {
     /**
      * 比赛项目 添加
      */
+    @Transactional
     @ResponseBody
     @PostMapping("project/add")
     public AppResponseResult addProject(@Validated Project project) {
@@ -119,7 +121,7 @@ public class BackstageController {
         return "plate::table_refresh";
     }
 
-    //盘口
+    @Transactional
     @ResponseBody
     @PostMapping("plate/add")
     public AppResponseResult addPlate(Plate plate) {
@@ -134,5 +136,28 @@ public class BackstageController {
         return "plate::game_list";
     }
 
+    //赛程
+    @RequestMapping("game")
+    public String game(ModelMap map) {
+        map.put("games", backstageService.getBackstageGame(null));
+        map.put("projects", projectMapper.selectList(null));
+        return "game";
+    }
+
+    @RequestMapping("gameByPro")
+    public String gameByPro(ModelMap map, Long paramProject) {
+        map.put("games", backstageService.getBackstageGame(paramProject));
+        return "game::table_refresh";
+    }
+
+    @Transactional
+    @ResponseBody
+    @PostMapping("game/add")
+    public AppResponseResult addGame(Game game) {
+        game.setCreateTime(new Date());
+        game.setType(0);
+        gameMapper.insert(game);
+        return AppResponseResult.success();
+    }
 
 }
