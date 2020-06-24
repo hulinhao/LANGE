@@ -14,6 +14,7 @@ public class Plate {
     @TableId
     private Long id;
     private Long gameId;//比赛id
+    private Long projectId;//项目id
     private String content;//盘口内容
     private BigDecimal odds;//赔率
     private int type;       // 1:game   2:project
