@@ -11,18 +11,18 @@ import java.util.Map;
 
 public class HttpRequest {
 
-	public static void main(String[] args) {
-		// 发送 GET 请求
-		String s = HttpRequest.sendGet("http://v.qq.com/x/cover/kvehb7okfxqstmc.html?vid=e01957zem6o", "");
-		System.out.println(s);
-
-		// //发送 POST 请求
-		// String
-		// sr=HttpRequest.sendPost("http://www.toutiao.com/stream/widget/local_weather/data/?city=%E4%B8%8A%E6%B5%B7",
-		// "");
-		// JSONObject json = JSONObject.fromObject(sr);
-		// System.out.println(json.get("data"));
-	}
+//	public static void main(String[] args) {
+//		// 发送 GET 请求
+//		String s = HttpRequest.sendGet("http://v.qq.com/x/cover/kvehb7okfxqstmc.html?vid=e01957zem6o", "");
+//		System.out.println(s);
+//
+//		// //发送 POST 请求
+//		// String
+//		// sr=HttpRequest.sendPost("http://www.toutiao.com/stream/widget/local_weather/data/?city=%E4%B8%8A%E6%B5%B7",
+//		// "");
+//		// JSONObject json = JSONObject.fromObject(sr);
+//		// System.out.println(json.get("data"));
+//	}
 
 	/**
 	 * 向指定URL发送GET方法的请求
