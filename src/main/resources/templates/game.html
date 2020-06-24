@@ -118,7 +118,6 @@
             playerOne: $("#playerOne").val(),
             playerTwo: $("#playerTwo").val(),
         };
-        alert(JSON.stringify(param))
         $.post("/backstage/game/add", param, function (data) {
             alert(data.msg);
             $("#myModal").modal('hide');
