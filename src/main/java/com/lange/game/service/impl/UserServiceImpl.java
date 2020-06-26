@@ -36,8 +36,13 @@ public class UserServiceImpl implements UserService {
             user.setGold(new BigDecimal(0));
             user.setPayGold(new BigDecimal(0));
             user.setWithdrawGold(new BigDecimal(0));
+            user.setAvatarUrl(u.getAvatarUrl());
             userMapper.insert(user);
+            log.info("用户添加成功，wxName:{};openId:{}",user.getWxName(),user.getWxOpenid());
+        }else{
+            log.info("用户查询成功，wxName:{};openId:{}",user.getWxName(),user.getWxOpenid());
         }
         return user;
     }
+
 }

@@ -15,7 +15,7 @@ import java.util.Date;
  *
  */
 @Data
-public class billsVo {
+public class BillsVo {
     private Long plateId;
     private Long userId;
     private BigDecimal amount;//下注金额

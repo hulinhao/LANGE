@@ -33,7 +33,7 @@ public class WeixinController {
 	private UserService userService;
 
 	/**
-	 * @Title: decodeUserInfo       @author：lizheng     
+	 * @Title: decodeUserInfo        
 	 * @Description: 解密用户敏感数据
 	 * @return
 	 */
@@ -104,6 +104,7 @@ public class WeixinController {
 				User u = new User();
 				u.setWxOpenid(userInfoJSON.get("openId").toString());
 				u.setWxName(userInfoJSON.get("nickName").toString());
+				u.setAvatarUrl(userInfo.get("avatarUrl").toString());
 				map.put("user",userService.checkUser(u));
 			} else {
 				map.put("status", 0);

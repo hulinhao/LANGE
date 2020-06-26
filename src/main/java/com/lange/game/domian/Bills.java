@@ -12,7 +12,7 @@ import java.util.Date;
  */
 @Data
 @TableName("bills")
-public class bills {
+public class Bills {
 
     @TableId
     private Long id;

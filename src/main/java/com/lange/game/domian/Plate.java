@@ -13,11 +13,9 @@ public class Plate {
 
     @TableId
     private Long id;
-    private Long gameId;//比赛id
-    private Long projectId;//项目id
+    private Long forecastId;//预测id
     private String content;//盘口内容
     private BigDecimal odds;//赔率
-    private int type;       // 1:game   2:project
     private int status; //0:可下注 1:盘口过期 3：已赔付
     private Date createTime;//
     private Date endTime;//

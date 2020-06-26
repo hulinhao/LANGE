@@ -37,20 +37,20 @@ public class BackstageService {
      */
     public List<BackstagePlateVo> getBackstagePlates(Long paramProject, Integer paramStatus) {
         List<BackstagePlateVo> list = new ArrayList<>();
-        List<Plate> plates = plateMapper.selectList(new LambdaQueryWrapper<Plate>().eq(paramProject != null, Plate::getProjectId, paramProject).eq(paramStatus != null && paramStatus != 0, Plate::getStatus, paramStatus));
-        for (Plate plate : plates) {
-            BackstagePlateVo vo = new BackstagePlateVo();
-            BeanUtils.copyProperties(plate, vo);
-            vo.setProjectRemark(projectMapper.selectById(plate.getProjectId()).getRemark());
-            vo.setPlateId(plate.getId());
-            if (plate.getType() == 1) {
-                //关联
-                Game game = gameMapper.selectById(plate.getGameId());
-                vo.setPlayerOne(game.getPlayerOne());
-                vo.setPlayerTwo(game.getPlayerTwo());
-            }
-            list.add(vo);
-        }
+//        List<Plate> plates = plateMapper.selectList(new LambdaQueryWrapper<Plate>().eq(paramProject != null, Plate::getProjectId, paramProject).eq(paramStatus != null && paramStatus != 0, Plate::getStatus, paramStatus));
+//        for (Plate plate : plates) {
+//            BackstagePlateVo vo = new BackstagePlateVo();
+//            BeanUtils.copyProperties(plate, vo);
+//            vo.setProjectRemark(projectMapper.selectById(plate.getProjectId()).getRemark());
+//            vo.setPlateId(plate.getId());
+//            if (plate.getType() == 1) {
+//                //关联
+//                Game game = gameMapper.selectById(plate.getGameId());
+//                vo.setPlayerOne(game.getPlayerOne());
+//                vo.setPlayerTwo(game.getPlayerTwo());
+//            }
+//            list.add(vo);
+//        }
         return list;
     }
 
