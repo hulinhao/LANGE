@@ -19,7 +19,7 @@ public class Bills {
     private Long plateId;
     private Long userId;
     private BigDecimal amount;//下注金额
-    private int type;//0:未结算  1：已结算
+    private int type;//0:等待接单 1:未结算  2：已结算
     private BigDecimal settlementAmount;//结算金额
     private Date createTime;
     private Date updateTime;

@@ -5,9 +5,11 @@ package com.lange.game.controller;/**
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.lange.enums.ResponseEnum;
 import com.lange.game.domian.User;
 import com.lange.game.domian.Bills;
+import com.lange.game.domian.vo.BillsInfo;
 import com.lange.game.mapper.BillsMapper;
 import com.lange.game.mapper.UserMapper;
 import com.lange.utils.AppResponseResult;
@@ -37,6 +39,12 @@ public class OrderController {
     private BillsMapper billsMapper;
     @Resource
     private UserMapper userMapper;
+
+    /**
+     * 添加比赛订单
+     * @param params
+     * @return
+     */
     @RequestMapping("addOrderList")
     public AppResponseResult addOrderList(@RequestBody Map params){
         if(CommUtils.isNull(params.get("betParam"))){
@@ -54,13 +62,13 @@ public class OrderController {
         }
         BigDecimal sub =user.getGold().subtract(BigDecimal.valueOf(Double.parseDouble(countAmount.toString())));
 
-        if( sub.compareTo(new BigDecimal(0)) == -1){
-            return AppResponseResult.errorMsg("下单失败：金币不足!");
-        }
+//        if( sub.compareTo(new BigDecimal(0)) == -1){
+//            return AppResponseResult.errorMsg("下单失败：金币不足!");
+//        }
         for (Object m : betParam) {
             Bills order = JSONArray.parseObject( JSON.toJSONString(m), Bills.class);
             order.setUserId(Long.parseLong(userId.toString()));
-            order.setType(0);
+            order.setType(0); //0:等待接单 1:未结算  2：已结算
             order.setCreateTime(new Date());
             billsMapper.insert(order);
             log.info("下单成功，userId:{}",order.getUserId());
@@ -71,6 +79,12 @@ public class OrderController {
         userMapper.updateById(user);
         return AppResponseResult.success(ResponseEnum.DATA_EMPTY);
     }
+
+    /**
+     * 添加项目订单
+     * @param params
+     * @return
+     */
     @RequestMapping("addOrder")
     public AppResponseResult addOrder(@RequestBody Map params){
 
@@ -88,14 +102,14 @@ public class OrderController {
         }
         BigDecimal sub =user.getGold().subtract(BigDecimal.valueOf(Double.parseDouble(amount.toString())));
 
-        if( sub.compareTo(new BigDecimal(0)) == -1){
-            return AppResponseResult.errorMsg("下单失败：金币不足!");
-        }
+//        if( sub.compareTo(new BigDecimal(0)) == -1){
+//            return AppResponseResult.errorMsg("下单失败：金币不足!");
+//        }
         Bills bills = new Bills();
         bills.setUserId(Long.parseLong(userId.toString()));
         bills.setAmount(new BigDecimal(amount.toString()));
         bills.setPlateId(Long.parseLong(plateId.toString()));
-        bills.setType(0);
+        bills.setType(0); //0:等待接单 1:未结算  2：已结算
         bills.setCreateTime(new Date());
         billsMapper.insert(bills);
         log.info("下单成功，userId:{}",bills.getUserId());
@@ -105,5 +119,21 @@ public class OrderController {
         user.setUpdateTime(new Date());
         userMapper.updateById(user);
         return AppResponseResult.success(ResponseEnum.DATA_EMPTY);
+    }
+
+    /**
+     * 查询用户订单
+     * @param params
+     * @return
+     */
+    @RequestMapping("getUserOrders")
+    public AppResponseResult getUserOrders(@RequestBody Map params){
+        Object userId = params.get("userId");
+        if(CommUtils.isNull(userId)){
+            return AppResponseResult.error();
+        }
+        List<BillsInfo> list = billsMapper.getBillsByuserId(Long.parseLong(userId.toString()));
+        //log.info(list.toString());
+        return AppResponseResult.success(list);
     }
 }
