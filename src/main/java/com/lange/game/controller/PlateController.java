@@ -1,6 +1,7 @@
 package com.lange.game.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.lange.App;
 import com.lange.game.domian.Forecast;
 import com.lange.game.domian.Plate;
 import com.lange.game.domian.Project;
@@ -14,15 +15,14 @@ import com.lange.game.mapper.ProjectMapper;
 import com.lange.utils.AppResponseResult;
 import com.lange.utils.CommUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.math.BigDecimal;
+import java.util.*;
 
 /**
  * TODO
@@ -68,7 +68,8 @@ public class PlateController {
         }
         GameFrtPlateVo gameFrtPlateVo = new GameFrtPlateVo(gameMapper.getGameInfoByGameId(Long.parseLong(gameId.toString())));
         gameFrtPlateVo.setFrtPlateVos(frtPlateVos);
-        log.info("查询比赛盘口信息：{}",gameFrtPlateVo.toString());
+        //log.info("查询比赛盘口信息：{}",gameFrtPlateVo.toString());
+        log.info("查询比赛盘口信息：{}条。",gameFrtPlateVo.getFrtPlateVos().size());
         return AppResponseResult.success(gameFrtPlateVo);
     }
 
@@ -95,7 +96,36 @@ public class PlateController {
             proFrtPlateVo.setFrtPlateVos(frtPlateVoList);
             proFrtPlateVoList.add(proFrtPlateVo);
         }
-        log.info("查询所有项目盘口信息：{}",proFrtPlateVoList.toString());
+        //log.info("查询所有项目盘口信息：{}",proFrtPlateVoList.toString());
+        log.info("查询所有项目信息：{}条",proFrtPlateVoList.size());
         return AppResponseResult.success(proFrtPlateVoList);
+    }
+    /**
+     * 修改盘口   失效上一个  新增一个盘口
+     */
+
+    @RequestMapping("editPlate")
+    public AppResponseResult editPlate(@RequestBody Map<String,Object> param){
+        Object plateId = param.get("id");
+        Object odds = param.get("odds");
+        if(CommUtils.isNull(plateId) || CommUtils.isNull(odds)){
+            return AppResponseResult.error();
+        }
+        Plate oldPlate = platMapper.selectById(Long.parseLong(plateId.toString()));
+        oldPlate.setStatus(1);//0:可下注 1:盘口过期 3：已赔付
+        oldPlate.setEndTime(new Date());
+        platMapper.updateById(oldPlate);
+
+
+        Plate newPlate =  new Plate();
+        BeanUtils.copyProperties(oldPlate,newPlate);
+        newPlate.setId(null);
+        newPlate.setStatus(0);
+        newPlate.setEndTime(null);
+        newPlate.setOdds(new BigDecimal(odds.toString()));
+        newPlate.setCreateTime(new Date());
+        platMapper.insert(newPlate);
+
+        return AppResponseResult.success(newPlate);
     }
 }

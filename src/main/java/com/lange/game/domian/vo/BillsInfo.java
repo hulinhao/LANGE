@@ -28,5 +28,7 @@ public class BillsInfo {
     private String forecastContent;
     private int forecastType; //1:单盘  2：多盘
     private int relate; //1：关联比赛 2:关联项目
+    private String name;
+    private String wxName;
 
 }

@@ -136,4 +136,16 @@ public class OrderController {
         //log.info(list.toString());
         return AppResponseResult.success(list);
     }
+
+    /**
+     * 查询所有订单
+     * @return
+     */
+    @RequestMapping("getAllOrders")
+    public AppResponseResult getAllOrders(){
+
+        List<BillsInfo> list = billsMapper.getAllBills();
+        //log.info(list.toString());
+        return AppResponseResult.success(list);
+    }
 }
