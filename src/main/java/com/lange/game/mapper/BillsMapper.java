@@ -29,7 +29,7 @@ public interface BillsMapper extends BaseMapper<Bills> {
 
     @Select({" SELECT" +
             " b.id billsId,b.amount amount,b.type billsType,pro.`name` proName,pro.remark proRemark,g.player_one pone,g.player_two ptwo," +
-            " p.odds odds,p.content plateContent,f.content forecastContent,f.type forecastType,f.relate relate,u.`name`,u.wx_name wxName" +
+            " p.odds odds,p.content plateContent,f.content forecastContent,f.type forecastType,f.relate relate,IFNULL(u.`name`,'') name,IFNULL(u.wx_name,'') wxName" +
             " FROM" +
             " bills b " +
             " LEFT JOIN plate p ON b.plate_id = p.id" +
@@ -44,7 +44,7 @@ public interface BillsMapper extends BaseMapper<Bills> {
 
     @Select({" SELECT" +
             " b.id billsId,b.amount amount,b.type billsType,pro.`name` proName,pro.remark proRemark,g.player_one pone,g.player_two ptwo," +
-            " p.odds odds,p.content plateContent,f.content forecastContent,f.type forecastType,f.relate relate,u.`name`,u.wx_name wxName" +
+            " p.odds odds,p.content plateContent,f.content forecastContent,f.type forecastType,f.relate relate,IFNULL(u.`name`,'') name,IFNULL(u.wx_name,'') wxName" +
             " FROM" +
             " bills b " +
             " LEFT JOIN plate p ON b.plate_id = p.id" +
@@ -59,7 +59,8 @@ public interface BillsMapper extends BaseMapper<Bills> {
 
     @Select({" SELECT" +
             " b.id billsId,b.amount amount,b.type billsType,pro.`name` proName,pro.remark proRemark,g.player_one pone,g.player_two ptwo," +
-            " p.odds odds,p.content plateContent,f.content forecastContent,f.type forecastType,f.relate relate,u.`name`,u.wx_name wxName,u.id userId,pro.id proId" +
+            " p.odds odds,p.content plateContent,f.content forecastContent,f.type forecastType,f.relate relate,IFNULL(u.`name`,'') name,IFNULL(u.wx_name,'') wxName,"+
+            " u.id userId,pro.id proId,  IFNULL(b.settlement_amount,0) settlementAmount" +
             " FROM" +
             " bills b " +
             " LEFT JOIN plate p ON b.plate_id = p.id" +

@@ -90,8 +90,11 @@ public class PlateController {
             for (Forecast ft : forecastList) {
                 FrtPlateVo vo = new FrtPlateVo(ft);
                 List<Plate> plateList = platMapper.selectList(new LambdaQueryWrapper<Plate>().eq(Plate::getStatus,0).eq(Plate::getForecastId,ft.getId()));
-                vo.setPlates(plateList);
-                frtPlateVoList.add(vo);
+                if(plateList !=null && plateList.size()>0){
+                    vo.setPlates(plateList);
+                    frtPlateVoList.add(vo);
+                }
+
             }
             proFrtPlateVo.setFrtPlateVos(frtPlateVoList);
             proFrtPlateVoList.add(proFrtPlateVo);

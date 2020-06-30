@@ -45,4 +45,16 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    @Override
+    public User setName(Long userId, String name) {
+        User u = userMapper.selectById(userId);
+        if(u == null){
+            return  null;
+        }
+        u.setName(name);
+        u.setUpdateTime(new Date());
+        userMapper.updateById(u);
+        return u;
+    }
+
 }

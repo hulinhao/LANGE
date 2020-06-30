@@ -15,6 +15,6 @@ import java.util.Map;
 @Data
 public class PaidBillsVo {
     private Long userId;
-    private BigDecimal paidAmount;
+    private BigDecimal countAmount;
     private List<ProBillsVo> proBillsVos;
 }

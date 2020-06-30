@@ -19,4 +19,6 @@ public interface UserService {
      * @param u
      */
     User checkUser(User u);
+
+    User setName(Long userId,String name);
 }

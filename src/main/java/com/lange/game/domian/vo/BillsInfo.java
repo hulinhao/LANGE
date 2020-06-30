@@ -32,5 +32,6 @@ public class BillsInfo {
     private String wxName;
     private Long userId;
     private Long proId;
+    private BigDecimal settlementAmount;
 
 }

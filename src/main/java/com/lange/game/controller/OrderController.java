@@ -6,6 +6,7 @@ package com.lange.game.controller;/**
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.lange.App;
 import com.lange.enums.ResponseEnum;
 import com.lange.game.domian.User;
 import com.lange.game.domian.Bills;
@@ -198,26 +199,52 @@ public class OrderController {
      */
     @RequestMapping("paidOrders")
     public AppResponseResult paidOrders(){
-//0:等待接单 1:未结算  2：已结算 3:已赔付
+        //0:等待接单 1:未结算  2：已结算 3:已赔付
         List<BillsInfo>  bills = billsMapper.getAllPaidBills();
         List<PaidBillsVo> result = new ArrayList<PaidBillsVo>();
         bills.stream().collect(Collectors.groupingBy(BillsInfo:: getUserId,Collectors.toList())).forEach((userId,childList) ->{
             PaidBillsVo pv = new PaidBillsVo();
             pv.setUserId(userId);
             List<ProBillsVo> proBillsVos = new ArrayList<>();
-            BigDecimal countAmount = new BigDecimal(0);
             childList.stream().collect(Collectors.groupingBy(BillsInfo:: getProId,Collectors.toList())).forEach((proId,proBills)->{
-                //IntSummaryStatistics iss = proBills.stream().mapToDouble(p ->{p.get}).summaryStatistics();
+                DoubleSummaryStatistics doubleSummaryStatistics = proBills.stream().mapToDouble(p ->{
+                    return Double.parseDouble(p.getSettlementAmount() == null?"0":p.getSettlementAmount().toString());
+                }).summaryStatistics();
                 ProBillsVo pb = new ProBillsVo();
                 pb.setProjectId(proId);
                 pb.setBillsInfos(proBills);
+                pv.setCountAmount(new BigDecimal(doubleSummaryStatistics.getSum()));
                 proBillsVos.add(pb);
             });
             pv.setProBillsVos(proBillsVos);
             result.add(pv);
         });
-        log.info(JSON.toJSONString(result));
+        //log.info(JSON.toJSONString(result));
         return AppResponseResult.success(result);
+    }
+
+    @RequestMapping("takePaidOrders")
+    public AppResponseResult takePaidOrders(@RequestBody Map param){
+        Object id = param.get("userId");
+        if(CommUtils.isNull(id)){
+            return AppResponseResult.error();
+        }
+        User user = userMapper.selectById(Long.parseLong(id.toString()));
+        if(user == null ){
+            return AppResponseResult.error();
+        }
+        List<Bills> bills = billsMapper.selectList(new LambdaQueryWrapper<Bills>().eq(Bills::getUserId ,user.getId()).eq(Bills::getType,2));
+        for (Bills b:bills) {
+            b.setType(3);
+            b.setUpdateTime(new Date());
+            billsMapper.updateById(b);
+            //添加用户结算金额
+            user.setWithdrawGold((user.getWithdrawGold()==null?new BigDecimal(0):user.getWithdrawGold())
+                    .add(b.getSettlementAmount()==null?new BigDecimal(0):b.getSettlementAmount()));
+        }
+        user.setUpdateTime(new Date());
+        userMapper.updateById(user);
+        return AppResponseResult.success();
     }
 
 }
