@@ -114,7 +114,7 @@ public class WeixinController {
 			log.info(e.getMessage());
 			e.printStackTrace();
 		}
-		log.info("用户openid:{}",map.toString());
+		log.info("用户:{}",map.toString());
 		return map;
 	}
 }

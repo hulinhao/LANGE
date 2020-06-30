@@ -30,5 +30,7 @@ public class BillsInfo {
     private int relate; //1：关联比赛 2:关联项目
     private String name;
     private String wxName;
+    private Long userId;
+    private Long proId;
 
 }
