@@ -18,7 +18,7 @@ public class BillsInfo {
 
     private Long billsId;
     private BigDecimal amount;
-    private int billsType; //0:等待接单 1:未结算  2：已结算
+    private int billsType; //0:等待接单 1:未结算  2：已结算 3：已赔付
     private String proName;
     private String proRemark;
     private String pone;

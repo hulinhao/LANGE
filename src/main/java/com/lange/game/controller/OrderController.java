@@ -8,16 +8,19 @@ import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.lange.App;
 import com.lange.enums.ResponseEnum;
+import com.lange.game.domian.Plate;
 import com.lange.game.domian.User;
 import com.lange.game.domian.Bills;
 import com.lange.game.domian.vo.BillsInfo;
 import com.lange.game.domian.vo.PaidBillsVo;
 import com.lange.game.domian.vo.ProBillsVo;
 import com.lange.game.mapper.BillsMapper;
+import com.lange.game.mapper.PlateMapper;
 import com.lange.game.mapper.UserMapper;
 import com.lange.utils.AppResponseResult;
 import com.lange.utils.CommUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.annotation.Order;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,7 +44,8 @@ public class OrderController {
     private BillsMapper billsMapper;
     @Resource
     private UserMapper userMapper;
-
+    @Resource
+    private PlateMapper plateMapper;
     /**
      * 添加比赛订单
      * @param params
@@ -67,11 +71,21 @@ public class OrderController {
 //        if( sub.compareTo(new BigDecimal(0)) == -1){
 //            return AppResponseResult.errorMsg("下单失败：金币不足!");
 //        }
+        List<Bills> list = new ArrayList<Bills>();
         for (Object m : betParam) {
             Bills order = JSONArray.parseObject( JSON.toJSONString(m), Bills.class);
+            //验证盘口赔率是否被修改
+            Plate p = plateMapper.selectById(order.getPlateId());
+            if(p.getStatus()!=0){
+                log.info("下单失败，盘口已被修改....");
+                return AppResponseResult.error();
+            }
             order.setUserId(Long.parseLong(userId.toString()));
             order.setType(0); //0:等待接单 1:未结算  2：已结算
             order.setCreateTime(new Date());
+            list.add(order);
+        }
+        for (Bills order :list){
             billsMapper.insert(order);
             log.info("下单成功，userId:{}",order.getUserId());
         }
@@ -107,6 +121,12 @@ public class OrderController {
 //        if( sub.compareTo(new BigDecimal(0)) == -1){
 //            return AppResponseResult.errorMsg("下单失败：金币不足!");
 //        }
+        //验证盘口赔率是否被修改
+        Plate p = plateMapper.selectById(Long.parseLong(plateId.toString()));
+        if(p.getStatus()!=0){
+            log.info("下单失败，盘口已被修改....");
+            return AppResponseResult.error();
+        }
         Bills bills = new Bills();
         bills.setUserId(Long.parseLong(userId.toString()));
         bills.setAmount(new BigDecimal(amount.toString()));
