@@ -201,12 +201,12 @@ public class OrderController {
             b.setType(1);
             b.setUpdateTime(new Date());
             billsMapper.updateById(b);
-            return AppResponseResult.success(1);
+            return AppResponseResult.success(true);
         }else if(b.getType() == 1){
             b.setType(0);
             b.setUpdateTime(new Date());
             billsMapper.updateById(b);
-            return AppResponseResult.success(2);
+            return AppResponseResult.success(false);
         }else {
             return AppResponseResult.error();
         }
