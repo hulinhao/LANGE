@@ -2,15 +2,18 @@ package com.lange.game.controller;
 
 
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.lange.enums.ResponseEnum;
 import com.lange.game.domian.Game;
 import com.lange.game.domian.Plate;
 import com.lange.game.domian.Project;
+import com.lange.game.domian.ProjectType;
 import com.lange.game.domian.vo.BackstagePlateVo;
 import com.lange.game.mapper.GameMapper;
 import com.lange.game.mapper.PlateMapper;
 import com.lange.game.mapper.ProjectMapper;
+import com.lange.game.mapper.ProjectTypeMapper;
 import com.lange.game.service.BackstageService;
 import com.lange.utils.AppResponseResult;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +46,8 @@ public class BackstageController {
     @Resource
     private PlateMapper plateMapper;
 
+    @Resource
+    private ProjectTypeMapper projectTypeMapper;
 
     /**
      * 后台页面
@@ -55,21 +60,9 @@ public class BackstageController {
     //项目
     @GetMapping("project")
     public String project(ModelMap map) {
-        map.put("projects", projectMapper.selectList(null));
+        map.put("projects", projectMapper.getProject());
+        map.put("projectType",projectTypeMapper.selectList(null));
         return "project";
-    }
-
-    /**
-     * 异常处理
-     */
-    @ExceptionHandler
-    @ResponseBody
-    public AppResponseResult exception(Exception e) {
-        log.error("后台异常 >>{}", e.getMessage(), e);
-        if (e instanceof BindException) {
-            return AppResponseResult.error(ResponseEnum.PARAM_ERROR);
-        }
-        return AppResponseResult.errorMsg(e.getMessage());
     }
 
     /**
@@ -95,38 +88,12 @@ public class BackstageController {
     }
 
     /**
-     * 比赛项目 删除
+     * 比赛项目 修改
      */
     @ResponseBody
     @PostMapping("project/update")
     public AppResponseResult updateProject(@Validated Project project) {
         projectMapper.updateById(project);
-        return AppResponseResult.success();
-    }
-
-    //盘口
-    @GetMapping("plate")
-    public String plate(ModelMap map) {
-        List<Project> projects = projectMapper.selectList(null);
-        map.put("projects", projects);
-        map.put("games", gameMapper.selectList(new LambdaQueryWrapper<Game>().eq(Game::getProjectId, projects.get(0).getId())));
-        map.put("plateList", backstageService.getBackstagePlates(null, null));
-        return "plate";
-    }
-
-    //盘口
-    @RequestMapping("plateParam")
-    public String plateParam(ModelMap map, Long paramProject, Integer paramStatus) {
-        map.put("plateList", backstageService.getBackstagePlates(paramProject, paramStatus));
-        return "plate::table_refresh";
-    }
-
-    @Transactional
-    @ResponseBody
-    @PostMapping("plate/add")
-    public AppResponseResult addPlate(Plate plate) {
-        plate.setCreateTime(new Date());
-        plateMapper.insert(plate);
         return AppResponseResult.success();
     }
 
@@ -160,4 +127,49 @@ public class BackstageController {
         return AppResponseResult.success();
     }
 
+    //预测
+    @RequestMapping("forecast")
+    public String forecast(ModelMap map) {
+        //查询赛事预测
+
+        return "forecast";
+    }
+
+    //盘口
+    @GetMapping("plate")
+    public String plate(ModelMap map) {
+        List<Project> projects = projectMapper.selectList(null);
+        map.put("projects", projects);
+        map.put("games", gameMapper.selectList(new LambdaQueryWrapper<Game>().eq(Game::getProjectId, projects.get(0).getId())));
+        map.put("plateList", backstageService.getBackstagePlates(null, null));
+        return "plate";
+    }
+
+    @RequestMapping("plateParam")
+    public String plateParam(ModelMap map, Long paramProject, Integer paramStatus) {
+        map.put("plateList", backstageService.getBackstagePlates(paramProject, paramStatus));
+        return "plate::table_refresh";
+    }
+
+    @Transactional
+    @ResponseBody
+    @PostMapping("plate/add")
+    public AppResponseResult addPlate(Plate plate) {
+        plate.setCreateTime(new Date());
+        plateMapper.insert(plate);
+        return AppResponseResult.success();
+    }
+
+    /**
+     * 异常处理
+     */
+    @ExceptionHandler
+    @ResponseBody
+    public AppResponseResult exception(Exception e) {
+        log.error("后台异常 >>{}", e.getMessage(), e);
+        if (e instanceof BindException) {
+            return AppResponseResult.error(ResponseEnum.PARAM_ERROR);
+        }
+        return AppResponseResult.errorMsg(e.getMessage());
+    }
 }

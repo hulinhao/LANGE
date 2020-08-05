@@ -17,16 +17,18 @@
         <th>类型</th>
         <th>logo</th>
         <th>比赛名称</th>
+        <th>状态</th>
         <th>开赛时间</td>
         <th>操作</td>
     </tr>
     <tr th:each="p : ${projects}">
         <td th:text="${p.id}"></td>
         <td th:text="${p.name}"></td>
-        <td th:if="${p.type ==1}">台球</td>
-        <td th:if="${p.type ==2}">篮球</td>
-        <td ><img th:src="${p.img}"></td>
+        <td th:text="${p.type}"></td>
+        <td ><img th:src="${'/img/'+ p.img}" style="width: 20px;height: 20px"></td>
         <td th:text="${p.remark}"></td>
+        <td th:if="${p.status == 0}">进行中</td>
+        <td th:if="${p.status == 1}">已完结</td>
         <td th:text="${#dates.format(p.createTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
         <td>
             <button type="button" class="btn btn-sm btn-primary create-logo" disabled>新增</button>
@@ -40,17 +42,16 @@
 <h2>新增项目：</h2>
 <form class="form-horizontal">
     <div class="form-group">
-        <label for="ProjectName" class="col-sm-2 control-label">比赛项目</label>
+        <label for="ProjectName" class="col-sm-2 control-label">比赛名称</label>
         <div class="col-sm-5">
-            <input type="text" class="form-control" id="ProjectName" name="name" placeholder="比赛项目">
+            <input type="text" class="form-control" id="ProjectName" name="name" placeholder="比赛名称">
         </div>
     </div>
     <div class="form-group">
         <label for="ProjectType" class="col-sm-2 control-label">项目类型</label>
         <div class="col-sm-5">
             <select class="form-control" id="ProjectType" placeholder="项目类型" name="type">
-                <option value="1">台球</option>
-                <option value="2">篮球</option>
+                <option th:each="t : ${projectType}" th:value="${t.id}" th:text="${t.name}"></option>
             </select>
         </div>
     </div>
@@ -61,9 +62,9 @@
         </div>
     </div>
     <div class="form-group">
-        <label for="ProjectRemark" class="col-sm-2 control-label">活动名称</label>
+        <label for="ProjectRemark" class="col-sm-2 control-label">活动介绍</label>
         <div class="col-sm-5">
-            <input type="text" class="form-control" id="ProjectRemark" name="remark" placeholder="活动名称">
+            <input type="text" class="form-control" id="ProjectRemark" name="remark" placeholder="用一句话简单介绍一下吧~">
         </div>
     </div>
     <div class="form-group">
